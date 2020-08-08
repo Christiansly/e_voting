@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for position in positions %}
+  <p>{{position.name}}: {{position.votes}} 
+<div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:{{position.percentage}}%"></div>
+</div>
+</p>
+{% endfor %}
+<br>
+<br>
+<hr>
+{% if user.voter.voted %}
+<a href = "{% url 'unvote' %}"> <button type="button" class="btn btn-outline-dark">Unvote, nobody will know!</button></a>
+{% else %}
+<div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Click me and vote mate!
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    {% for position in positions %}
+      <a class="dropdown-item" href="{{position.get_absolute_url}}">{{position.name}}</a>
+    {% endfor %}
+  </div>
+  {{message}}
+</div>
+{% endif %}
+{% endblock %}
